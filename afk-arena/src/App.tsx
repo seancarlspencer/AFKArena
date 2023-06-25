@@ -30,6 +30,7 @@ import { Provider } from 'react-redux';
 import store from './store/store';
 import Counter from './components/Counter';
 import Calendar from './components/Calendar';
+import './App.scss'
 
 // Reminder of how Redux works, Provider provides a store which holds all the states of application.
 // Reducers handle state transactions

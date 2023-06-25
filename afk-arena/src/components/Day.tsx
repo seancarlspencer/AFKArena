@@ -2,19 +2,26 @@ import React, { useState } from 'react';
 import { AnyAction } from 'redux';
 import { useSelector, useDispatch, connect  } from 'react-redux';
 
-const Day = () => {
-  const [toggled, setToggled] = useState(true);
+interface DayProps{
+  empty: boolean,
+  dayNumber: Number
+}
+
+const Day: React.FC<DayProps> = ({empty,dayNumber}) => {
+  const [toggled, setToggled] = useState(false);
 
   const handletoggle = () => {
     setToggled((prevToggled) => !prevToggled)
     console.log("Handling...");
   };
 
-  return (
-    <div onClick={handletoggle}>
-      <p>Click Me</p>
-      <p>Current Value: {toggled ? "True" : "False"} </p>
+  return (empty ?
+    <div className={`day-display`}>
     </div>
+    :
+    <div className={`day-display${toggled? " toggled":""}`} onClick={handletoggle}>
+      <div className="day-number">{dayNumber.toString()}</div>
+    </div> 
   );
 };
 
