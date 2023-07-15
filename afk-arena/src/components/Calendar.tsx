@@ -12,6 +12,7 @@ const Calendar = () => {
         month: state.calendar.month,
         year: state.calendar.year,
         days: state.calendar.days}));
+  
   const dispatch = useDispatch();
 
   const handleUpdateStartDay = (num: Number) => {
@@ -60,32 +61,39 @@ const Calendar = () => {
       const startDate = new Date(parseInt(dates[0]), parseInt(dates[1]) - 1, 1);
       console.log(startDate.toString());
       let startDateParsed = startDate.toString().split(" ")[0];
-      let i=0;
+      let startDateParsedValue=0;
       switch(startDateParsed){
         case 'Sun':
           handleUpdateStartDay(0);
           break;
         case 'Mon':
           handleUpdateStartDay(1);
+          startDateParsedValue=1;
           break;
         case 'Tue':
           handleUpdateStartDay(2);
+          startDateParsedValue=2;
           break;
         case 'Wed':
           handleUpdateStartDay(3);
+          startDateParsedValue=3;
           break;
         case 'Thu':
           handleUpdateStartDay(4);
+          startDateParsedValue=4;
           break;
         case 'Fri':
           handleUpdateStartDay(5);
+          startDateParsedValue=5;
           break;
         case 'Sat':
           handleUpdateStartDay(6);
+          startDateParsedValue=6;
           break;
         default:
           break;
       }
+      let daysParsed=0;
       switch (parseInt(dates[1])) {
         case 1: // January
         case 3: // March
@@ -95,25 +103,35 @@ const Calendar = () => {
         case 10: // October
         case 12: // December
           handleUpdateDays(31);
+          daysParsed=31;
           break;
         case 4: // April
         case 6: // June
         case 9: // September
         case 11: // November
           handleUpdateDays(30);
+          daysParsed=30;
           break;
         case 2: // February
           // Check for leap year (divisible by 4 but not divisible by 100 unless also divisible by 400)
           if ((parseInt(dates[0]) % 4 === 0 && parseInt(dates[0]) % 100 !== 0) || parseInt(dates[0]) % 400 === 0) {
             handleUpdateDays(29);
+            daysParsed=29;
           } else {
             handleUpdateDays(28);
+            daysParsed=28;
           }
           break;
         default:
           throw new Error('Invalid month');
     }
-    dayMap = new Array(35).fill(0);
+    console.log(daysParsed+startDateParsedValue);
+    if(daysParsed+startDateParsedValue > 35){
+      dayMap = new Array(42).fill(0);
+    }
+    else{
+      dayMap = new Array(35).fill(0);
+    }
   }
   };
 
@@ -127,6 +145,7 @@ const Calendar = () => {
       <input type="month"></input>
       <button onClick={updateTime}>Confirm Date</button>
       <div className="calendar-display-container">
+        <div className="calendar-title">{}</div>
         <div className="days-of-the-week">
           <div>Sunday</div>
           <div>Monday</div>
@@ -138,15 +157,21 @@ const Calendar = () => {
         </div>
         <div className="calendar-display">
           {dayMap.map((x,index)=>{
-            if(index<startDayIndex || index>days){
+            if(index<startDayIndex || index>(days+startDayIndex-1)){
               return <Day
                 empty={true}
                 dayNumber={index}
+                days={days}
+                month={month}
+                year={year}
               />
             }
             return <Day
             empty={false}
             dayNumber={index - startDayIndex + 1}
+                days={days}
+                month={month}
+                year={year}
             />
           })}
         </div>
