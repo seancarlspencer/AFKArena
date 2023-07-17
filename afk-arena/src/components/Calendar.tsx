@@ -1,10 +1,24 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateStartDay, updateMonth, updateYear, updateDays } from '../actions/actions';
 import Day from './Day';
 import { start } from 'repl';
 
 let dayMap = new Array(35).fill(0);
+let monthTable = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December"
+];
 
 const Calendar = () => {
   const {startDayIndex, month, year, days} = useSelector((state: any) =>
@@ -12,6 +26,8 @@ const Calendar = () => {
         month: state.calendar.month,
         year: state.calendar.year,
         days: state.calendar.days}));
+
+  const [printing, setPrinting] = useState(false);
   
   const dispatch = useDispatch();
 
@@ -50,7 +66,11 @@ const Calendar = () => {
     useEffect(() => {
       console.log('Component updated');
       // Additional logic on component update
-    }, [days]); // Run the effect only when 'count' changes
+    }, [days,printing]); // Run the effect only when 'count' changes
+
+  const enablePrintingMode = () => {
+    setPrinting(true);
+  }
 
   const updateTime = () => {
     let time = document.querySelector(`input[type="month"]`) as HTMLInputElement;
@@ -137,6 +157,7 @@ const Calendar = () => {
 
   return (
     <div>
+      <div className={`printing ${printing ? "hide-print" : ""}`}>
       <p>startDayIndex: {startDayIndex}</p>
       <p>month: {month}</p>
       <p>year: {year}</p>
@@ -144,8 +165,11 @@ const Calendar = () => {
 
       <input type="month"></input>
       <button onClick={updateTime}>Confirm Date</button>
+      <button onClick={enablePrintingMode}>Go To Print Page</button>
+      </div>
       <div className="calendar-display-container">
-        <div className="calendar-title">{}</div>
+        <div className="calendar-title">{monthTable[month-1]} {year}</div>
+        <div className="calendar-description">Work Schedule</div>
         <div className="days-of-the-week">
           <div>Sunday</div>
           <div>Monday</div>

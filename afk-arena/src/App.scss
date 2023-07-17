@@ -39,6 +39,7 @@
 
 .calendar-display-container{
   margin: 100px;
+  margin-top: 36px;
 }
 
 .calendar-display, .days-of-the-week{
@@ -59,4 +60,25 @@
 .days-of-the-week{
   justify-items: center;
   margin:20px;
+}
+
+.hero-comp-container{
+  display: grid;
+  font-size: 24px;
+}
+
+.calendar-title, .calendar-description{
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  font-size: 36px;
+  font-weight: 600;
+}
+
+.calendar-description{
+  margin-bottom: 36px;
+}
+
+.hide-print{
+  display: none;
 }

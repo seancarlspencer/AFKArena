@@ -29,6 +29,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import store from './store/store';
 import Counter from './components/Counter';
+import HeroDamage from './components/HeroDamage';
 import Calendar from './components/Calendar';
 import './App.scss'
 
